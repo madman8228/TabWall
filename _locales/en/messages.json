@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Save browser tabs locally, organize them by website, and restore one tab or the full collection whenever you need."
+    "message": "Save tabs locally, close unused pages to help reduce memory use, and restore them whenever you need."
   },
   "actionTitle": {
     "message": "Save tabs to TabWall"

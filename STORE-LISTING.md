@@ -6,11 +6,11 @@ TabWall
 
 ## Short description
 
-Save browser tabs into a compact, local tab wall and restore them whenever you need.
+Save tabs locally, close unused pages to help reduce memory use, and restore them whenever you need.
 
 ## Full description
 
-TabWall turns a crowded browser window into a compact tab wall. Save the web tabs in the current window, keep their original order, and restore one tab or the whole collection whenever you are ready.
+TabWall turns a crowded browser window into a compact tab wall. Save the web tabs in the current window, close the pages you are not using to help reduce memory use, and restore one tab or the whole collection whenever you are ready.
 
 ### Features
 
