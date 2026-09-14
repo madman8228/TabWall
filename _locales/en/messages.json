@@ -29,6 +29,12 @@
   "clearAll": {
     "message": "Clear all"
   },
+  "batchActionsTitle": {
+    "message": "Show restore and clear actions"
+  },
+  "batchActionsAria": {
+    "message": "Show restore and clear actions"
+  },
   "tabsPerRow": {
     "message": "Tabs / row"
   },

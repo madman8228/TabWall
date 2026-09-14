@@ -1,5 +1,7 @@
 node_modules/
 release/
 work/
+output/
+.playwright-cli/
 recovery-70-source.json
 *.zip

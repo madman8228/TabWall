@@ -41,8 +41,19 @@
               </svg>
             </button>
           </div>
-          <button id="restore-all" class="primary-button" data-i18n="restoreAll" data-i18n-title="restoreAllTitle" data-i18n-aria-label="restoreAllAria" title="Restore all saved tabs to the browser" type="button">Restore all</button>
-          <button id="clear-session" class="secondary-button" data-i18n="clearAll" data-i18n-title="clearAllTitle" data-i18n-aria-label="clearAllAria" title="Clear all saved tabs" type="button">Clear all</button>
+          <div class="batch-actions">
+            <button id="batch-actions-button" class="icon-button" data-i18n-title="batchActionsTitle" data-i18n-aria-label="batchActionsAria" title="Show restore and clear actions" type="button" aria-haspopup="menu" aria-expanded="false">
+              <svg class="more-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="3" cy="8" r="1.6" />
+                <circle cx="8" cy="8" r="1.6" />
+                <circle cx="13" cy="8" r="1.6" />
+              </svg>
+            </button>
+            <div id="batch-actions-menu" class="action-menu" role="menu" hidden>
+              <button id="restore-all" class="menu-item" data-i18n="restoreAll" data-i18n-title="restoreAllTitle" data-i18n-aria-label="restoreAllAria" title="Restore all saved tabs to the browser" type="button" role="menuitem">Restore all</button>
+              <button id="clear-session" class="menu-item" data-i18n="clearAll" data-i18n-title="clearAllTitle" data-i18n-aria-label="clearAllAria" title="Clear all saved tabs" type="button" role="menuitem">Clear all</button>
+            </div>
+          </div>
         </div>
       </header>
 

@@ -16,6 +16,8 @@ const FALLBACK_MESSAGES = {
   byWebsiteHint: "Group tabs by website",
   restoreAll: "Restore all",
   clearAll: "Clear all",
+  batchActionsTitle: "Show restore and clear actions",
+  batchActionsAria: "Show restore and clear actions",
   tabsPerRowHint: "Choose how many tabs appear in each row",
   tabViewAria: "Tab view",
   emptyTitle: "TabWall is empty",
@@ -52,6 +54,8 @@ const retryStorageButton = document.querySelector("#retry-storage");
 const sessionMeta = document.querySelector("#session-meta");
 const restoreAllButton = document.querySelector("#restore-all");
 const clearSessionButton = document.querySelector("#clear-session");
+const batchActionsButton = document.querySelector("#batch-actions-button");
+const batchActionsMenu = document.querySelector("#batch-actions-menu");
 const viewButtons = document.querySelectorAll("[data-view]");
 const tabsPerRowInput = document.querySelector("#tabs-per-row");
 const tabsPerRowValue = document.querySelector("#tabs-per-row-value");
@@ -93,6 +97,17 @@ viewButtons.forEach((button) => {
 });
 restoreAllButton.addEventListener("click", restoreAll);
 clearSessionButton.addEventListener("click", clearSession);
+batchActionsButton.addEventListener("click", toggleBatchActions);
+document.addEventListener("click", (event) => {
+  if (!batchActionsMenu.contains(event.target) && !batchActionsButton.contains(event.target)) {
+    closeBatchActions();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeBatchActions();
+  }
+});
 retryStorageButton.addEventListener("click", () => {
   void renderSession();
 });
@@ -532,6 +547,7 @@ async function restoreAll() {
     return;
   }
 
+  closeBatchActions();
   restoreAllButton.disabled = true;
   restoreAllButton.textContent = translate("restoring");
 
@@ -596,6 +612,7 @@ async function deleteTab(tabToDelete) {
 }
 
 async function clearSession() {
+  closeBatchActions();
   if (!window.confirm(translate("clearAllConfirm"))) {
     return;
   }
@@ -607,6 +624,21 @@ async function clearSession() {
     console.error("TabWall could not clear saved tabs.", error);
     showStorageError(error);
   }
+}
+
+function toggleBatchActions() {
+  if (batchActionsMenu.hidden) {
+    batchActionsMenu.hidden = false;
+    batchActionsButton.setAttribute("aria-expanded", "true");
+    return;
+  }
+
+  closeBatchActions();
+}
+
+function closeBatchActions() {
+  batchActionsMenu.hidden = true;
+  batchActionsButton.setAttribute("aria-expanded", "false");
 }
 
 function getInitial(value) {
