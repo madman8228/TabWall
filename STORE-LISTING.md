@@ -6,7 +6,7 @@ TabWall
 
 ## Short description
 
-Save tabs, reduce memory use, and restore them anytime.
+Organize tabs, save memory.
 
 ## Full description
 
