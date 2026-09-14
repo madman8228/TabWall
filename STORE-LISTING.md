@@ -46,4 +46,8 @@ No account or test credentials are required.
 
 ## Privacy policy URL
 
-Host `privacy-policy.html` at a public HTTPS URL and enter that URL in the store dashboard.
+`https://madman8228.github.io/TabWall/privacy-policy.html`
+
+## Support URL
+
+`https://github.com/madman8228/TabWall/issues`

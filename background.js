@@ -1,8 +1,6 @@
 importScripts("storage-db.js");
 
 const LAZY_TAB_FILE = "lazy-tab.html";
-const CONFIRMED_RECOVERY_FILE = "recovery-70-source.json";
-const CONFIRMED_RECOVERY_MARKER = "tabwallHistoricalRecovery20260912";
 const CONTEXT_MENU_ID = "tabwall-save-current-page";
 const restoreInFlight = new Map();
 
@@ -202,9 +200,6 @@ async function handleStorageCommand(message, sender) {
   await TabWallStore.initialize(scope, chrome.storage.local);
   const command = message.command;
   const mutatingCommands = new Set(["capture", "reorder", "trash", "clear", "restore-trash", "import"]);
-  const recoveryChanged = command === "list" && scope === "normal"
-    ? await applyConfirmedRecovery()
-    : false;
   let result;
 
   switch (command) {
@@ -240,57 +235,10 @@ async function handleStorageCommand(message, sender) {
   }
 
   const revision = await TabWallStore.revision(scope);
-  if (mutatingCommands.has(command) || recoveryChanged) {
+  if (mutatingCommands.has(command)) {
     notifyStorageUpdated(scope, revision);
   }
   return { ok: true, revision, ...result };
-}
-
-async function applyConfirmedRecovery() {
-  const marker = await chrome.storage.local.get(CONFIRMED_RECOVERY_MARKER);
-  if (marker?.[CONFIRMED_RECOVERY_MARKER]) {
-    return false;
-  }
-
-  let recoveryDocument;
-  try {
-    const response = await fetch(chrome.runtime.getURL(CONFIRMED_RECOVERY_FILE), { cache: "no-store" });
-    if (!response.ok) {
-      return false;
-    }
-    const candidates = await response.json();
-    const candidate = Array.isArray(candidates)
-      ? candidates.find((entry) => entry.sequence === 20 && entry.operation === "put")
-      : null;
-    if (!candidate?.session || !Array.isArray(candidate.session.tabs) || candidate.session.tabs.length !== 70) {
-      return false;
-    }
-    recoveryDocument = { tabs: candidate.session.tabs };
-  } catch (error) {
-    console.error("TabWall could not read the confirmed recovery snapshot.", error);
-    return false;
-  }
-
-  const imported = await TabWallStore.import("normal", recoveryDocument);
-  const active = await TabWallStore.list("normal");
-  const byIdentity = new Map(active.map((tab) => [tab.url + "\u0000" + tab.title, tab]));
-  const orderedIds = recoveryDocument.tabs
-    .map((tab) => byIdentity.get(tab.url + "\u0000" + (tab.title || tab.url))?.id)
-    .filter(Boolean);
-  const sourceIds = new Set(orderedIds);
-  orderedIds.push(...active.filter((tab) => !sourceIds.has(tab.id)).map((tab) => tab.id));
-  if (orderedIds.length > 0) {
-    await TabWallStore.reorder("normal", orderedIds);
-  }
-  await chrome.storage.local.set({
-    [CONFIRMED_RECOVERY_MARKER]: {
-      sequence: 20,
-      recoveredAt: new Date().toISOString(),
-      imported: imported.imported,
-      duplicates: imported.duplicates
-    }
-  });
-  return true;
 }
 
 async function handleRestoreTabs(message, sender) {

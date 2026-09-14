@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Save and organize browser tabs locally in a compact tab wall. Restore individual tabs or all tabs on demand, group them by website, reorder cards, and keep regular and InPrivate sessions separate."
+    "message": "Save browser tabs locally, organize them by website, and restore one tab or the full collection whenever you need."
   },
   "actionTitle": {
     "message": "Save tabs to TabWall"
