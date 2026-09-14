@@ -15,6 +15,10 @@
           <p id="session-meta" class="session-meta"></p>
         </div>
         <div class="header-actions">
+          <label class="search-control" for="tab-search">
+            <span class="sr-only" data-i18n="searchTabsLabel">Search tabs</span>
+            <input id="tab-search" type="search" autocomplete="off" data-i18n-placeholder="searchTabsPlaceholder" data-i18n-title="searchTabsHint" data-i18n-aria-label="searchTabsLabel" placeholder="Search tabs" title="Search tabs">
+          </label>
           <label class="row-size-control" for="tabs-per-row">
             <input id="tabs-per-row" type="range" min="10" max="60" value="60" step="1" data-i18n-title="tabsPerRowHint" data-i18n-aria-label="tabsPerRowHint" title="Set tabs per row">
             <output id="tabs-per-row-value" for="tabs-per-row">60</output>
@@ -58,6 +62,11 @@
       </header>
 
       <section id="tab-wall" class="tab-wall" aria-live="polite"></section>
+
+      <section id="search-empty-state" class="empty-state" hidden>
+        <h2 data-i18n="noMatchingTabs">No matching tabs</h2>
+        <p data-i18n="noMatchingTabsDescription">Try a different title, website, or URL.</p>
+      </section>
 
       <p id="status-message" class="status-message" role="status" hidden></p>
       <button id="retry-storage" class="retry-button" data-i18n="retry" type="button" hidden>Retry</button>

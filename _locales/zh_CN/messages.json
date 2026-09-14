@@ -41,6 +41,15 @@
   "tabsPerRowHint": {
     "message": "设置每行显示的标签数量"
   },
+  "searchTabsLabel": {
+    "message": "搜索已保存的标签页"
+  },
+  "searchTabsPlaceholder": {
+    "message": "搜索标签页"
+  },
+  "searchTabsHint": {
+    "message": "按标题、网站或网址搜索"
+  },
   "tabViewAria": {
     "message": "标签视图"
   },
@@ -67,6 +76,12 @@
   },
   "noSavedTabs": {
     "message": "没有已保存的标签页"
+  },
+  "noMatchingTabs": {
+    "message": "没有找到匹配的页面"
+  },
+  "noMatchingTabsDescription": {
+    "message": "请尝试其他标题、网站或网址。"
   },
   "restoreTabAria": {
     "message": "恢复 $1"

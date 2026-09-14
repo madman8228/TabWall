@@ -30,3 +30,13 @@ test("background refreshes do not replace the page count with a loading label", 
   const deleteHandler = source.match(/async function deleteTab\([\s\S]*?\n\}\n\nasync function clearSession/)[0];
   assert.doesNotMatch(deleteHandler, /renderSession\(/);
 });
+
+test("saved tabs can be searched by title, website, or URL", () => {
+  const html = fs.readFileSync("manager.html", "utf8");
+  const source = fs.readFileSync("manager.js", "utf8");
+  assert.match(html, /id="tab-search"[^>]*type="search"/);
+  assert.match(html, /id="search-empty-state"[^>]*hidden/);
+  assert.match(source, /function filterTabsForSearch\(tabs\)/);
+  assert.match(source, /function fuzzyMatch\(text, query\)/);
+  assert.match(source, /getDomain\(tab\.url\)/);
+});

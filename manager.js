@@ -19,6 +19,9 @@ const FALLBACK_MESSAGES = {
   batchActionsTitle: "Show restore and clear actions",
   batchActionsAria: "Show restore and clear actions",
   tabsPerRowHint: "Choose how many tabs appear in each row",
+  searchTabsLabel: "Search saved tabs",
+  searchTabsPlaceholder: "Search tabs",
+  searchTabsHint: "Search by title, website, or URL",
   tabViewAria: "Tab view",
   emptyTitle: "TabWall is empty",
   emptyDescription: "Click the TabWall toolbar icon while web pages are open to save them here.",
@@ -29,6 +32,8 @@ const FALLBACK_MESSAGES = {
   loading: "Loading…",
   clearAllConfirm: "Clear all saved tabs from TabWall?",
   noSavedTabs: "No saved tabs",
+  noMatchingTabs: "No matching tabs",
+  noMatchingTabsDescription: "Try a different title, website, or URL.",
   restoreTabAria: "Restore $1",
   dragHint: "Drag to reorder; drag out to open in a browser tab",
   deleteTab: "Delete tab",
@@ -52,6 +57,8 @@ const emptyState = document.querySelector("#empty-state");
 const statusMessage = document.querySelector("#status-message");
 const retryStorageButton = document.querySelector("#retry-storage");
 const sessionMeta = document.querySelector("#session-meta");
+const searchInput = document.querySelector("#tab-search");
+const searchEmptyState = document.querySelector("#search-empty-state");
 const restoreAllButton = document.querySelector("#restore-all");
 const clearSessionButton = document.querySelector("#clear-session");
 const batchActionsButton = document.querySelector("#batch-actions-button");
@@ -110,6 +117,9 @@ document.addEventListener("keydown", (event) => {
 });
 retryStorageButton.addEventListener("click", () => {
   void renderSession(true);
+});
+searchInput.addEventListener("input", () => {
+  void renderSession();
 });
 tabsPerRowInput.addEventListener("input", async () => {
   tabsPerRow = clampTabsPerRow(tabsPerRowInput.value);
@@ -178,8 +188,11 @@ function applyTranslations() {
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     element.textContent = translate(element.dataset.i18n);
   });
-  document.querySelectorAll("[data-i18n-title]").forEach((element) => {
+document.querySelectorAll("[data-i18n-title]").forEach((element) => {
     element.title = translate(element.dataset.i18nTitle);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+    element.placeholder = translate(element.dataset.i18nPlaceholder);
   });
   document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
     element.setAttribute("aria-label", translate(element.dataset.i18nAriaLabel));
@@ -195,10 +208,12 @@ async function renderSession(showLoading = false) {
     const tabs = Array.isArray(response.data) ? [...response.data] : [];
     tabs.sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
     lastRenderedTabs = tabs;
+    const visibleTabs = filterTabsForSearch(tabs);
     tabWall.replaceChildren();
     updateViewButtons();
     statusMessage.hidden = true;
     retryStorageButton.hidden = true;
+    searchEmptyState.hidden = true;
 
     if (tabs.length === 0) {
       emptyState.hidden = false;
@@ -213,13 +228,18 @@ async function renderSession(showLoading = false) {
     clearSessionButton.disabled = false;
     sessionMeta.textContent = formatCollectedCount(tabs.length);
 
-    const sessionSavedAt = tabs[0]?.savedAt;
-    if (viewMode === "domain") {
-      renderDomainView(tabs, sessionSavedAt);
+    if (visibleTabs.length === 0) {
+      searchEmptyState.hidden = false;
       return;
     }
 
-    renderTabRows(tabs, tabWall, sessionSavedAt, true);
+    const sessionSavedAt = tabs[0]?.savedAt;
+    if (viewMode === "domain") {
+      renderDomainView(visibleTabs, sessionSavedAt);
+      return;
+    }
+
+    renderTabRows(visibleTabs, tabWall, sessionSavedAt, true);
   } catch (error) {
     console.error("TabWall could not load saved tabs.", error);
     showStorageError(error);
@@ -233,6 +253,7 @@ function showStorageError(error) {
   statusMessage.hidden = false;
   retryStorageButton.hidden = false;
   emptyState.hidden = true;
+  searchEmptyState.hidden = true;
   restoreAllButton.disabled = true;
   clearSessionButton.disabled = true;
   sessionMeta.textContent = lastRenderedTabs.length > 0
@@ -253,6 +274,34 @@ function renderTabRows(tabs, container, sessionSavedAt, allowDrag = false) {
 
     container.append(row);
   }
+}
+
+function filterTabsForSearch(tabs) {
+  const query = searchInput.value.trim().toLocaleLowerCase();
+  if (!query) {
+    return tabs;
+  }
+
+  const terms = query.split(/\s+/).filter(Boolean);
+  return tabs.filter((tab) => {
+    const searchableText = [tab.title, tab.url, getDomain(tab.url)]
+      .filter(Boolean)
+      .join(" ")
+      .toLocaleLowerCase();
+    return terms.every((term) => fuzzyMatch(searchableText, term));
+  });
+}
+
+function fuzzyMatch(text, query) {
+  let cursor = 0;
+  for (const character of query) {
+    const matchIndex = text.indexOf(character, cursor);
+    if (matchIndex === -1) {
+      return false;
+    }
+    cursor = matchIndex + character.length;
+  }
+  return true;
 }
 
 function groupTabsByDomain(tabs) {

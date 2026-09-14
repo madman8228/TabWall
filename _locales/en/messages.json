@@ -41,6 +41,15 @@
   "tabsPerRowHint": {
     "message": "Choose how many tabs appear in each row"
   },
+  "searchTabsLabel": {
+    "message": "Search saved tabs"
+  },
+  "searchTabsPlaceholder": {
+    "message": "Search tabs"
+  },
+  "searchTabsHint": {
+    "message": "Search by title, website, or URL"
+  },
   "tabViewAria": {
     "message": "Tab view"
   },
@@ -67,6 +76,12 @@
   },
   "noSavedTabs": {
     "message": "No saved tabs"
+  },
+  "noMatchingTabs": {
+    "message": "No matching tabs"
+  },
+  "noMatchingTabsDescription": {
+    "message": "Try a different title, website, or URL."
   },
   "restoreTabAria": {
     "message": "Restore $1"

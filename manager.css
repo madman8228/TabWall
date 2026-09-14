@@ -39,6 +39,44 @@ button {
   gap: 16px;
 }
 
+.search-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.search-control input {
+  width: clamp(150px, 17vw, 230px);
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid #d1d9e8;
+  border-radius: 7px;
+  background: #fff;
+  color: #29375b;
+  font-size: 0.78rem;
+  outline: none;
+}
+
+.search-control input::placeholder {
+  color: #8a95aa;
+}
+
+.search-control input:focus {
+  border-color: #6975db;
+  box-shadow: 0 0 0 2px rgba(91, 100, 214, 0.14);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .row-size-control {
   display: flex;
   align-items: center;
