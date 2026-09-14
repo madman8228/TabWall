@@ -21,3 +21,12 @@ test("restore and clear actions are available from an accessible SVG menu", () =
   assert.equal((html.match(/class="more-icon"/g) || []).length, 1);
   assert.equal((html.match(/class="more-icon"[\s\S]*?<circle/g) || []).length, 1);
 });
+
+test("background refreshes do not replace the page count with a loading label", () => {
+  const source = fs.readFileSync("manager.js", "utf8");
+  assert.match(source, /async function renderSession\(showLoading = false\)/);
+  assert.match(source, /if \(showLoading\) \{\s+sessionMeta\.textContent = translate\("loading"\);\s+\}/);
+  assert.doesNotMatch(source, /async function renderSession\(showLoading = false\) \{\s+sessionMeta\.textContent = translate\("loading"\);/);
+  const deleteHandler = source.match(/async function deleteTab\([\s\S]*?\n\}\n\nasync function clearSession/)[0];
+  assert.doesNotMatch(deleteHandler, /renderSession\(/);
+});

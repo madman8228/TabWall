@@ -109,7 +109,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 retryStorageButton.addEventListener("click", () => {
-  void renderSession();
+  void renderSession(true);
 });
 tabsPerRowInput.addEventListener("input", async () => {
   tabsPerRow = clampTabsPerRow(tabsPerRowInput.value);
@@ -152,7 +152,7 @@ function createManagerError(code, message) {
 async function initializeManager() {
   tabsPerRow = await readTabsPerRow();
   syncTabsPerRowControl();
-  await renderSession();
+  await renderSession(true);
 }
 
 function translate(key, substitutions = []) {
@@ -186,8 +186,10 @@ function applyTranslations() {
   });
 }
 
-async function renderSession() {
-  sessionMeta.textContent = translate("loading");
+async function renderSession(showLoading = false) {
+  if (showLoading) {
+    sessionMeta.textContent = translate("loading");
+  }
   try {
     const response = await sendStorageCommand("list");
     const tabs = Array.isArray(response.data) ? [...response.data] : [];
@@ -513,7 +515,6 @@ async function persistRenderedOrder() {
   const orderedIds = renderedCards.map((card) => card.dataset.tabKey).filter(Boolean);
   try {
     await sendStorageCommand("reorder", { ids: orderedIds });
-    await renderSession();
   } catch (error) {
     console.error("TabWall could not save the new tab order.", error);
     showStorageError(error);
@@ -604,7 +605,6 @@ async function deleteTab(tabToDelete) {
   }
   try {
     await sendStorageCommand("trash", { ids: [tabToDelete.id] });
-    await renderSession();
   } catch (error) {
     console.error("TabWall could not move a tab to Trash.", error);
     showStorageError(error);
@@ -619,7 +619,6 @@ async function clearSession() {
 
   try {
     await sendStorageCommand("clear");
-    await renderSession();
   } catch (error) {
     console.error("TabWall could not clear saved tabs.", error);
     showStorageError(error);
