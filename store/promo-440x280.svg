@@ -6,29 +6,12 @@
       <stop stop-color="#eef5ff"/>
       <stop offset="1" stop-color="#f8fbff"/>
     </linearGradient>
-    <linearGradient id="accent" x1="20" y1="24" x2="410" y2="246" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1d4ed8"/>
-      <stop offset="1" stop-color="#08b7e8"/>
-    </linearGradient>
   </defs>
   <rect width="440" height="280" rx="26" fill="url(#background)"/>
   <circle cx="408" cy="18" r="92" fill="#dcecff" opacity=".58"/>
   <circle cx="4" cy="278" r="72" fill="#e4f8f5" opacity=".72"/>
-  <rect x="25" y="49" width="145" height="145" rx="32" fill="#ffffff" opacity=".96"/>
-  <g transform="translate(31 55) scale(1.22)">
-    <rect x="10" y="12" width="108" height="104" rx="24" fill="#fff"/>
-    <path d="M10 50V36c0-13.255 10.745-24 24-24h42c8.2 0 13.85 4.1 17.5 11.1l4.4 8.3c2.8 5.3 7.8 8.6 14.8 8.6H94c13.255 0 24 10.745 24 24v6H10z" fill="url(#accent)"/>
-    <circle cx="31" cy="31" r="5" fill="#fff"/>
-    <circle cx="47" cy="31" r="5" fill="#fff"/>
-    <circle cx="63" cy="31" r="5" fill="#fff"/>
-    <rect x="20" y="59" width="28" height="23" rx="7" fill="#2e80f2"/>
-    <rect x="52" y="59" width="28" height="23" rx="7" fill="#60afea"/>
-    <rect x="84" y="59" width="28" height="23" rx="7" fill="#4ed1ba"/>
-    <rect x="20" y="87" width="28" height="23" rx="7" fill="#7771eb"/>
-    <rect x="52" y="87" width="28" height="23" rx="7" fill="#ff9365"/>
-    <rect x="84" y="87" width="28" height="23" rx="7" fill="#ffd36d"/>
-  </g>
-  <text x="198" y="113" fill="#172033" font-family="Inter,Segoe UI,sans-serif" font-size="34" font-weight="800" letter-spacing="-1.8">TabWall</text>
-  <text x="200" y="145" fill="#46618b" font-family="Inter,Segoe UI,sans-serif" font-size="13.5" font-weight="600">Organize tabs, save memory.</text>
-  <rect x="200" y="170" width="104" height="4" rx="2" fill="#4f68d6"/>
+  <image href="logo-300.png" x="16" y="42" width="188" height="188" preserveAspectRatio="xMidYMid meet"/>
+  <text x="220" y="113" fill="#172033" font-family="Inter,Segoe UI,sans-serif" font-size="34" font-weight="800" letter-spacing="-1.8">TabWall</text>
+  <text x="222" y="145" fill="#46618b" font-family="Inter,Segoe UI,sans-serif" font-size="13.5" font-weight="600">Organize tabs, save memory.</text>
+  <rect x="222" y="170" width="104" height="4" rx="2" fill="#4f68d6"/>
 </svg>
