@@ -5,6 +5,12 @@
   "actionTitle": {
     "message": "Save tabs to TabWall"
   },
+  "contextMenuOpenTabWall": {
+    "message": "Open TabWall"
+  },
+  "openTabWallCommand": {
+    "message": "Open TabWall"
+  },
   "contextMenuSavePage": {
     "message": "Save current page to TabWall"
   },

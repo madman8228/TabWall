@@ -13,6 +13,8 @@ test("toolbar capture opens TabWall in the window where the action was clicked",
     ],
     nextTabId: 3,
     actionListener: null,
+    contextMenuListener: null,
+    commandListener: null,
     messageListener: null
   };
   const chrome = {
@@ -37,7 +39,18 @@ test("toolbar capture opens TabWall in the window where the action was clicked",
     contextMenus: {
       remove() { return Promise.resolve(); },
       create() {},
-      onClicked: { addListener() {} }
+      onClicked: {
+        addListener(listener) {
+          state.contextMenuListener = listener;
+        }
+      }
+    },
+    commands: {
+      onCommand: {
+        addListener(listener) {
+          state.commandListener = listener;
+        }
+      }
     },
     action: {
       onClicked: {
@@ -102,6 +115,25 @@ test("toolbar capture opens TabWall in the window where the action was clicked",
     currentWindowTabs.some((tab) => tab.url === "extension://test-extension/manager.html"),
     true,
     "the manager must be opened in the clicked window"
+  );
+
+  state.tabs = state.tabs.filter((tab) => tab.url !== "extension://test-extension/manager.html");
+  await state.contextMenuListener(
+    { menuItemId: "tabwall-open-manager" },
+    { windowId: 1, incognito: false }
+  );
+  assert.equal(
+    state.tabs.some((tab) => tab.windowId === 1 && tab.url === "extension://test-extension/manager.html"),
+    true,
+    "the context-menu command must recreate TabWall in the current window"
+  );
+
+  state.tabs = [{ id: 10, windowId: 3, incognito: false, url: "https://example.com/shortcut" }];
+  await state.commandListener("open-tabwall");
+  assert.equal(
+    state.tabs.some((tab) => tab.windowId === 3 && tab.url === "extension://test-extension/manager.html"),
+    true,
+    "the keyboard shortcut must open TabWall in the focused window"
   );
 });
 

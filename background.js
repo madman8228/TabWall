@@ -2,13 +2,24 @@ importScripts("storage-db.js");
 
 const LAZY_TAB_FILE = "lazy-tab.html";
 const CONTEXT_MENU_ID = "tabwall-save-current-page";
+const OPEN_MANAGER_MENU_ID = "tabwall-open-manager";
+const OPEN_MANAGER_COMMAND = "open-tabwall";
 const restoreInFlight = new Map();
 
 chrome.runtime.onInstalled.addListener(() => {
-  void chrome.contextMenus.remove(CONTEXT_MENU_ID).catch(() => {}).finally(() => {
+  void Promise.all([
+    chrome.contextMenus.remove(CONTEXT_MENU_ID).catch(() => {}),
+    chrome.contextMenus.remove(OPEN_MANAGER_MENU_ID).catch(() => {})
+  ]).finally(() => {
     chrome.contextMenus.create({
       id: CONTEXT_MENU_ID,
       title: chrome.i18n.getMessage("contextMenuSavePage") || "Save current page to TabWall",
+      contexts: ["page"],
+      documentUrlPatterns: ["http://*/*", "https://*/*"]
+    });
+    chrome.contextMenus.create({
+      id: OPEN_MANAGER_MENU_ID,
+      title: chrome.i18n.getMessage("contextMenuOpenTabWall") || "Open TabWall",
       contexts: ["page"],
       documentUrlPatterns: ["http://*/*", "https://*/*"]
     });
@@ -16,6 +27,15 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  if (info.menuItemId === OPEN_MANAGER_MENU_ID) {
+    try {
+      await openManagerForTab(tab);
+    } catch (error) {
+      console.error("TabWall could not open the manager from the context menu.", error);
+    }
+    return;
+  }
+
   if (info.menuItemId !== CONTEXT_MENU_ID || !isOrdinaryWebTab(tab)) {
     return;
   }
@@ -24,19 +44,24 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const scope = getScopeForTab(tab);
     await TabWallStore.initialize(scope, chrome.storage.local);
     await TabWallStore.capture(scope, [createSavedTab(tab)]);
-    const allTabs = await chrome.tabs.query({});
-    const managerUrl = chrome.runtime.getURL("manager.html");
-    const managerTabs = allTabs.filter((candidate) => (
-      isManagerTab(candidate, managerUrl) && Boolean(candidate.incognito) === Boolean(tab.incognito)
-    ));
-    const existingManagerTab = managerTabs.find((candidate) => candidate.windowId === tab.windowId) || managerTabs[0];
-    const duplicateManagerIds = managerTabs
-      .filter((candidate) => candidate.id !== existingManagerTab?.id && Number.isInteger(candidate.id))
-      .map((candidate) => candidate.id);
-
-    await openOrFocusManager(existingManagerTab, managerUrl, duplicateManagerIds, tab.windowId);
+    await openManagerForTab(tab);
   } catch (error) {
     console.error("TabWall could not save the page from the context menu.", error);
+  }
+});
+
+chrome.commands?.onCommand?.addListener(async (command) => {
+  if (command !== OPEN_MANAGER_COMMAND) {
+    return;
+  }
+
+  try {
+    const [currentTab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    if (currentTab) {
+      await openManagerForTab(currentTab);
+    }
+  } catch (error) {
+    console.error("TabWall could not open the manager from the keyboard shortcut.", error);
   }
 });
 
@@ -155,6 +180,20 @@ async function openOrFocusManager(existingManagerTab, managerUrl, duplicateManag
     createOptions.windowId = windowId;
   }
   await chrome.tabs.create(createOptions);
+}
+
+async function openManagerForTab(tab) {
+  const allTabs = await chrome.tabs.query({});
+  const managerUrl = chrome.runtime.getURL("manager.html");
+  const managerTabs = allTabs.filter((candidate) => (
+    isManagerTab(candidate, managerUrl) && Boolean(candidate.incognito) === Boolean(tab?.incognito)
+  ));
+  const existingManagerTab = managerTabs.find((candidate) => candidate.windowId === tab?.windowId) || managerTabs[0];
+  const duplicateManagerIds = managerTabs
+    .filter((candidate) => candidate.id !== existingManagerTab?.id && Number.isInteger(candidate.id))
+    .map((candidate) => candidate.id);
+
+  await openOrFocusManager(existingManagerTab, managerUrl, duplicateManagerIds, tab?.windowId);
 }
 
 function isManagerTab(tab, managerUrl) {

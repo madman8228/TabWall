@@ -5,6 +5,12 @@
   "actionTitle": {
     "message": "将标签页保存到 TabWall"
   },
+  "contextMenuOpenTabWall": {
+    "message": "打开 TabWall"
+  },
+  "openTabWallCommand": {
+    "message": "打开 TabWall"
+  },
   "contextMenuSavePage": {
     "message": "保存当前页面到 TabWall"
   },

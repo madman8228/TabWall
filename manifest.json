@@ -28,5 +28,13 @@
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
+  },
+  "commands": {
+    "open-tabwall": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "__MSG_openTabWallCommand__"
+    }
   }
 }
