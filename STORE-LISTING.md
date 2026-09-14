@@ -6,7 +6,7 @@ TabWall
 
 ## Short description
 
-Save tabs locally, close unused pages to help reduce memory use, and restore them whenever you need.
+Save tabs, reduce memory use, and restore them anytime.
 
 ## Full description
 

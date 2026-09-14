@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "本地保存标签页，关闭暂时不用的页面，减少内存占用，需要时一键恢复。"
+    "message": "收纳标签页，减少内存占用，需要时一键恢复。"
   },
   "actionTitle": {
     "message": "将标签页保存到 TabWall"

@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Save tabs locally, close unused pages to help reduce memory use, and restore them whenever you need."
+    "message": "Save tabs, reduce memory use, and restore them anytime."
   },
   "actionTitle": {
     "message": "Save tabs to TabWall"
