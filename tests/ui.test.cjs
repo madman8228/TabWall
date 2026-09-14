@@ -11,3 +11,13 @@ test("view icons map to the intended actions and use readable solid dots", () =>
   assert.equal((buttons[0][0].match(/r="1\.6"/g) || []).length, 6);
   assert.equal((buttons[1][0].match(/r="1\.6"/g) || []).length, 6);
 });
+
+test("restore and clear actions are available from an accessible SVG menu", () => {
+  const html = fs.readFileSync("manager.html", "utf8");
+  assert.match(html, /id="batch-actions-button"[^>]*aria-haspopup="menu"/);
+  assert.match(html, /id="batch-actions-menu"[^>]*role="menu"/);
+  assert.match(html, /id="restore-all"[^>]*role="menuitem"/);
+  assert.match(html, /id="clear-session"[^>]*role="menuitem"/);
+  assert.equal((html.match(/class="more-icon"/g) || []).length, 1);
+  assert.equal((html.match(/class="more-icon"[\s\S]*?<circle/g) || []).length, 1);
+});
