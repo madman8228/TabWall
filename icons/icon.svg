@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bar" x1="12" y1="12" x2="116" y2="52" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#08b7e8"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="20" y1="59" x2="48" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2677f4"/>
+      <stop offset="1" stop-color="#318cf0"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="52" y1="59" x2="78" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#59a9ef"/>
+      <stop offset="1" stop-color="#65b9e8"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="84" y1="59" x2="108" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4ed4b0"/>
+      <stop offset="1" stop-color="#4bd1c3"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="20" y1="87" x2="48" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7774ed"/>
+      <stop offset="1" stop-color="#7966e8"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="52" y1="87" x2="78" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff9368"/>
+      <stop offset="1" stop-color="#ff955d"/>
+    </linearGradient>
+    <linearGradient id="yellow" x1="84" y1="87" x2="108" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffd064"/>
+      <stop offset="1" stop-color="#ffd879"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="12" width="108" height="104" rx="24" fill="#fff"/>
+  <path d="M10 50V36c0-13.255 10.745-24 24-24h42c8.2 0 13.85 4.1 17.5 11.1l4.4 8.3c2.8 5.3 7.8 8.6 14.8 8.6H94c13.255 0 24 10.745 24 24v6H10z" fill="url(#bar)"/>
+  <circle cx="31" cy="31" r="5" fill="#fff"/>
+  <circle cx="47" cy="31" r="5" fill="#fff"/>
+  <circle cx="63" cy="31" r="5" fill="#fff"/>
+  <rect x="20" y="59" width="28" height="23" rx="7" fill="url(#blue)"/>
+  <rect x="52" y="59" width="28" height="23" rx="7" fill="url(#sky)"/>
+  <rect x="84" y="59" width="28" height="23" rx="7" fill="url(#mint)"/>
+  <rect x="20" y="87" width="28" height="23" rx="7" fill="url(#violet)"/>
+  <rect x="52" y="87" width="28" height="23" rx="7" fill="url(#orange)"/>
+  <rect x="84" y="87" width="28" height="23" rx="7" fill="url(#yellow)"/>
+</svg>

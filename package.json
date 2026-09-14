@@ -1,0 +1,13 @@
+{
+  "name": "tabwall",
+  "version": "0.2.9",
+  "private": true,
+  "description": "Local-first browser tab wall extension",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "test:integration": "node --test tests/integration/*.test.cjs"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "^6.2.1"
+  }
+}

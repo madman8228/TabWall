@@ -1,0 +1,116 @@
+{
+  "extensionDescription": {
+    "message": "Save and organize browser tabs locally in a compact tab wall. Restore individual tabs or all tabs on demand, group them by website, reorder cards, and keep regular and InPrivate sessions separate."
+  },
+  "actionTitle": {
+    "message": "Save tabs to TabWall"
+  },
+  "contextMenuSavePage": {
+    "message": "Save current page to TabWall"
+  },
+  "appName": {
+    "message": "TabWall"
+  },
+  "originalView": {
+    "message": "Original"
+  },
+  "byWebsite": {
+    "message": "By website"
+  },
+  "originalViewHint": {
+    "message": "Show tabs in original order"
+  },
+  "byWebsiteHint": {
+    "message": "Group tabs by website"
+  },
+  "restoreAll": {
+    "message": "Restore all"
+  },
+  "clearAll": {
+    "message": "Clear all"
+  },
+  "tabsPerRow": {
+    "message": "Tabs / row"
+  },
+  "tabsPerRowHint": {
+    "message": "Choose how many tabs appear in each row"
+  },
+  "tabViewAria": {
+    "message": "Tab view"
+  },
+  "emptyTitle": {
+    "message": "TabWall is empty"
+  },
+  "emptyDescription": {
+    "message": "Click the TabWall toolbar icon while web pages are open to save them here."
+  },
+  "restoreAllTitle": {
+    "message": "Restore all saved tabs to the browser"
+  },
+  "restoreAllAria": {
+    "message": "Restore all saved tabs to the browser"
+  },
+  "clearAllTitle": {
+    "message": "Clear all saved tabs"
+  },
+  "clearAllAria": {
+    "message": "Clear all saved tabs"
+  },
+  "clearAllConfirm": {
+    "message": "Clear all saved tabs from TabWall?"
+  },
+  "noSavedTabs": {
+    "message": "No saved tabs"
+  },
+  "restoreTabAria": {
+    "message": "Restore $1"
+  },
+  "dragHint": {
+    "message": "Drag to reorder; drag out to open in a browser tab"
+  },
+  "deleteTab": {
+    "message": "Delete tab"
+  },
+  "tabsGroupCountOne": {
+    "message": "1 tab"
+  },
+  "tabsGroupCountMany": {
+    "message": "$1 tabs"
+  },
+  "restoring": {
+    "message": "Restoring…"
+  },
+  "restoreSummary": {
+    "message": "$1 restored; $2 already open; $3 failed"
+  },
+  "storageError": {
+    "message": "TabWall could not load your saved tabs. Try again."
+  },
+  "backgroundUnavailable": {
+    "message": "Please reload the TabWall extension, then try again."
+  },
+  "retry": {
+    "message": "Retry"
+  },
+  "loading": {
+    "message": "Loading…"
+  },
+  "timeUnavailable": {
+    "message": "Time unavailable"
+  },
+  "lastVisit": {
+    "message": "Last visit: $1"
+  },
+  "lastVisitUnavailableSaved": {
+    "message": "Last visit unavailable; saved: $1"
+  },
+  "lastVisitUnavailableSession": {
+    "message": "Last visit unavailable; session saved: $1"
+  },
+  "lastVisitTimeUnavailable": {
+    "message": "Last visit time unavailable"
+  },
+  "lazyTabReady": {
+    "message": "This tab is ready and will load when selected."
+  }
+}

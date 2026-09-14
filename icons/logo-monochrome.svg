@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 240" role="img" aria-label="TabWall">
+  <g transform="translate(18 18) scale(1.28)" fill="#172033">
+    <rect x="10" y="12" width="108" height="104" rx="24"/>
+    <path d="M10 50V36c0-13.255 10.745-24 24-24h42c8.2 0 13.85 4.1 17.5 11.1l4.4 8.3c2.8 5.3 7.8 8.6 14.8 8.6H94c13.255 0 24 10.745 24 24v6H10z" fill="#fff"/>
+    <circle cx="31" cy="31" r="5" fill="#fff"/>
+    <circle cx="47" cy="31" r="5" fill="#fff"/>
+    <circle cx="63" cy="31" r="5" fill="#fff"/>
+  </g>
+  <text x="218" y="157" fill="#172033" font-family="Inter,Segoe UI,sans-serif" font-size="112" font-weight="800" letter-spacing="-6">TabWall</text>
+</svg>

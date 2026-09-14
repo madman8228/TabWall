@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="icons/icon32.png">
+    <title data-i18n="appName">TabWall</title>
+    <link rel="stylesheet" href="manager.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="page-header">
+        <div>
+        <p class="eyebrow">TabWall V0.2.9</p>
+          <p id="session-meta" class="session-meta"></p>
+        </div>
+        <div class="header-actions">
+          <label class="row-size-control" for="tabs-per-row">
+            <input id="tabs-per-row" type="range" min="10" max="60" value="60" step="1" data-i18n-title="tabsPerRowHint" data-i18n-aria-label="tabsPerRowHint" title="Set tabs per row">
+            <output id="tabs-per-row-value" for="tabs-per-row">60</output>
+          </label>
+          <div class="view-switcher" role="group" aria-label="Tab view" data-i18n-aria-label="tabViewAria">
+            <button class="view-button" data-view="domain" data-i18n-title="byWebsiteHint" data-i18n-aria-label="byWebsiteHint" type="button" title="Group tabs by website">
+              <svg class="view-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="4.5" cy="3" r="1.6" />
+                <circle cx="11.5" cy="3" r="1.6" />
+                <circle cx="4.5" cy="8" r="1.6" />
+                <circle cx="11.5" cy="8" r="1.6" />
+                <circle cx="4.5" cy="13" r="1.6" />
+                <circle cx="11.5" cy="13" r="1.6" />
+              </svg>
+            </button>
+            <button class="view-button is-active" data-view="original" data-i18n-title="originalViewHint" data-i18n-aria-label="originalViewHint" type="button" title="Show tabs in original order">
+              <svg class="view-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <circle cx="3" cy="4.5" r="1.6" />
+                <circle cx="8" cy="4.5" r="1.6" />
+                <circle cx="13" cy="4.5" r="1.6" />
+                <circle cx="3" cy="11.5" r="1.6" />
+                <circle cx="8" cy="11.5" r="1.6" />
+                <circle cx="13" cy="11.5" r="1.6" />
+              </svg>
+            </button>
+          </div>
+          <button id="restore-all" class="primary-button" data-i18n="restoreAll" data-i18n-title="restoreAllTitle" data-i18n-aria-label="restoreAllAria" title="Restore all saved tabs to the browser" type="button">Restore all</button>
+          <button id="clear-session" class="secondary-button" data-i18n="clearAll" data-i18n-title="clearAllTitle" data-i18n-aria-label="clearAllAria" title="Clear all saved tabs" type="button">Clear all</button>
+        </div>
+      </header>
+
+      <section id="tab-wall" class="tab-wall" aria-live="polite"></section>
+
+      <p id="status-message" class="status-message" role="status" hidden></p>
+      <button id="retry-storage" class="retry-button" data-i18n="retry" type="button" hidden>Retry</button>
+
+      <section id="empty-state" class="empty-state" hidden>
+        <h2 data-i18n="emptyTitle">Your tab wall is empty</h2>
+        <p data-i18n="emptyDescription">Click the TabWall toolbar icon while web pages are open to save them here.</p>
+      </section>
+    </main>
+
+    <script src="manager.js"></script>
+  </body>
+</html>

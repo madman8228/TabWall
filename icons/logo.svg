@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 240" role="img" aria-labelledby="title desc">
+  <title id="title">TabWall</title>
+  <desc id="desc">A colorful browser window with six organized tabs and the TabWall wordmark.</desc>
+  <g transform="translate(18 18) scale(1.28)">
+    <use href="icon.svg"/>
+  </g>
+  <text x="218" y="157" fill="#172033" font-family="Inter,Segoe UI,sans-serif" font-size="112" font-weight="800" letter-spacing="-6">TabWall</text>
+</svg>

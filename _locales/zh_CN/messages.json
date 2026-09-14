@@ -1,0 +1,116 @@
+{
+  "extensionDescription": {
+    "message": "在本地标签墙中保存和整理浏览器标签页，按需恢复单个或全部标签页，按网站分类、调整顺序，并分离普通窗口与 InPrivate 会话。"
+  },
+  "actionTitle": {
+    "message": "将标签页保存到 TabWall"
+  },
+  "contextMenuSavePage": {
+    "message": "保存当前页面到 TabWall"
+  },
+  "appName": {
+    "message": "TabWall"
+  },
+  "originalView": {
+    "message": "原始顺序"
+  },
+  "byWebsite": {
+    "message": "按网站"
+  },
+  "originalViewHint": {
+    "message": "按原始顺序显示标签页"
+  },
+  "byWebsiteHint": {
+    "message": "按网站归类标签页"
+  },
+  "restoreAll": {
+    "message": "全部恢复"
+  },
+  "clearAll": {
+    "message": "全部清除"
+  },
+  "tabsPerRow": {
+    "message": "每行标签数"
+  },
+  "tabsPerRowHint": {
+    "message": "设置每行显示的标签数量"
+  },
+  "tabViewAria": {
+    "message": "标签视图"
+  },
+  "emptyTitle": {
+    "message": "TabWall 是空的"
+  },
+  "emptyDescription": {
+    "message": "打开网页后点击 TabWall 工具栏图标，即可将标签页保存到这里。"
+  },
+  "restoreAllTitle": {
+    "message": "将所有已保存的标签页恢复到浏览器"
+  },
+  "restoreAllAria": {
+    "message": "将所有已保存标签页恢复到浏览器"
+  },
+  "clearAllTitle": {
+    "message": "清除全部已保存的标签页"
+  },
+  "clearAllAria": {
+    "message": "清除所有已保存标签页"
+  },
+  "clearAllConfirm": {
+    "message": "确定要清除 TabWall 中的全部已保存页面吗？"
+  },
+  "noSavedTabs": {
+    "message": "没有已保存的标签页"
+  },
+  "restoreTabAria": {
+    "message": "恢复 $1"
+  },
+  "dragHint": {
+    "message": "拖动以重新排序；拖出可在浏览器标签页中打开"
+  },
+  "deleteTab": {
+    "message": "删除标签页"
+  },
+  "tabsGroupCountOne": {
+    "message": "1 个标签页"
+  },
+  "tabsGroupCountMany": {
+    "message": "$1 个标签页"
+  },
+  "restoring": {
+    "message": "正在恢复…"
+  },
+  "restoreSummary": {
+    "message": "已恢复 $1 个，已打开 $2 个，失败 $3 个"
+  },
+  "storageError": {
+    "message": "TabWall 无法读取已保存页面，请重试。"
+  },
+  "backgroundUnavailable": {
+    "message": "请先重新加载 TabWall 扩展，然后重试。"
+  },
+  "retry": {
+    "message": "重试"
+  },
+  "loading": {
+    "message": "正在加载…"
+  },
+  "timeUnavailable": {
+    "message": "时间不可用"
+  },
+  "lastVisit": {
+    "message": "上次访问：$1"
+  },
+  "lastVisitUnavailableSaved": {
+    "message": "上次访问时间不可用；保存时间：$1"
+  },
+  "lastVisitUnavailableSession": {
+    "message": "上次访问时间不可用；会话保存时间：$1"
+  },
+  "lastVisitTimeUnavailable": {
+    "message": "上次访问时间不可用"
+  },
+  "lazyTabReady": {
+    "message": "此标签页已准备好，选中后将加载网页。"
+  }
+}
