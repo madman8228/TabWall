@@ -99,9 +99,7 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 viewToggleButton.addEventListener("click", () => {
-  viewMode = viewMode === "domain" ? "original" : "domain";
-  localStorage.setItem(VIEW_MODE_KEY, viewMode);
-  updateViewButtons();
+  setViewMode(viewMode === "domain" ? "original" : "domain");
   void renderSession();
 });
 restoreAllButton.addEventListener("click", restoreAll);
@@ -408,13 +406,21 @@ function getRegistrableDomain(hostname) {
 }
 
 function updateViewButtons() {
-  const nextViewKey = viewMode === "domain" ? "originalViewHint" : "byWebsiteHint";
+  const isDomainView = viewMode === "domain";
+  const nextViewKey = isDomainView ? "originalViewHint" : "byWebsiteHint";
   const nextViewLabel = translate(nextViewKey);
   viewToggleButton.title = nextViewLabel;
   viewToggleButton.setAttribute("aria-label", nextViewLabel);
-  viewToggleButton.setAttribute("aria-pressed", String(viewMode === "domain"));
-  viewIcons.domain.hidden = viewMode !== "domain";
-  viewIcons.original.hidden = viewMode === "domain";
+  viewToggleButton.setAttribute("aria-pressed", String(isDomainView));
+  viewToggleButton.dataset.viewMode = viewMode;
+  viewIcons.domain.hidden = !isDomainView;
+  viewIcons.original.hidden = isDomainView;
+}
+
+function setViewMode(nextMode) {
+  viewMode = nextMode === "domain" ? "domain" : "original";
+  localStorage.setItem(VIEW_MODE_KEY, viewMode);
+  updateViewButtons();
 }
 
 function getTabsPerRow() {

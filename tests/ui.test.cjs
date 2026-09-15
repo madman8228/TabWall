@@ -4,12 +4,16 @@ const test = require("node:test");
 
 test("view modes share one toggle with readable solid-dot SVG icons", () => {
   const html = fs.readFileSync("manager.html", "utf8");
+  const source = fs.readFileSync("manager.js", "utf8");
   const viewButton = html.match(/<button id="view-toggle-button"[\s\S]*?<\/button>/)?.[0];
   assert.ok(viewButton);
   assert.equal((html.match(/id="view-toggle-button"/g) || []).length, 1);
   assert.equal((viewButton.match(/data-view-icon="(domain|original)"/g) || []).length, 2);
   assert.equal((viewButton.match(/r="1\.6"/g) || []).length, 12);
   assert.match(viewButton, /aria-pressed="false"/);
+  assert.match(source, /function setViewMode\(nextMode\)/);
+  assert.match(source, /setViewMode\(viewMode === "domain" \? "original" : "domain"\)/);
+  assert.match(source, /viewToggleButton\.dataset\.viewMode = viewMode/);
 });
 
 test("restore and clear actions are available from an accessible SVG menu", () => {
