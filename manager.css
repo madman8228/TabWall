@@ -36,7 +36,7 @@ button {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 11px;
 }
 
 .search-control {
@@ -54,6 +54,7 @@ button {
   color: #29375b;
   font-size: 0.78rem;
   outline: none;
+  text-align: center;
   transition: width 180ms ease, border-color 120ms ease, box-shadow 120ms ease;
 }
 
@@ -63,7 +64,7 @@ button {
 
 .search-control input:focus,
 .search-control input:focus-visible {
-  width: clamp(150px, 17vw, 230px);
+  width: clamp(112px, 12.75vw, 173px);
   border-color: #6975db;
   box-shadow: 0 0 0 2px rgba(91, 100, 214, 0.14);
 }
@@ -113,10 +114,25 @@ button {
   box-shadow: none;
 }
 
-.row-size-control output {
+.row-size-value {
   min-width: 2ch;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #3e4770;
+  cursor: pointer;
+  font: inherit;
   text-align: right;
+}
+
+.row-size-value:hover {
+  color: #202a42;
+}
+
+.row-size-value:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid #5b64d6;
+  outline-offset: 2px;
 }
 
 .view-switcher {
@@ -281,7 +297,7 @@ h1 {
 .tab-wall {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   padding: 0 0 8px;
   border-bottom: 1px solid #dce2ee;
 }
@@ -318,23 +334,73 @@ h1 {
 .tab-group {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .tab-group-heading {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   color: #3e4770;
   font-size: 0.82rem;
   font-weight: 800;
+}
+
+.tab-group-domain {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tab-group-count {
   color: #9aa3b8;
   font-size: 0.75rem;
   font-weight: 600;
+}
+
+.group-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #697594;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.group-toggle:hover {
+  background: #e8edf7;
+  color: #29375b;
+}
+
+.group-toggle:focus-visible {
+  outline: 2px solid #5b64d6;
+  outline-offset: 2px;
+}
+
+.group-toggle-icon {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  transition: transform 160ms ease;
+}
+
+.group-toggle.is-collapsed .group-toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.tab-group-content[hidden] {
+  display: none;
 }
 
 .tab-row {

@@ -44,6 +44,9 @@
   "tabsPerRowHint": {
     "message": "设置每行显示的标签数量"
   },
+  "incrementTabsPerRow": {
+    "message": "增加每行标签数"
+  },
   "searchTabsLabel": {
     "message": "搜索已保存的标签页"
   },
@@ -74,6 +77,12 @@
   "clearAllAria": {
     "message": "清除所有已保存标签页"
   },
+  "collapseGroupAria": {
+    "message": "收起 $1 标签页"
+  },
+  "expandGroupAria": {
+    "message": "展开 $1 标签页"
+  },
   "clearAllConfirm": {
     "message": "确定要清除 TabWall 中的全部已保存页面吗？"
   },
@@ -96,10 +105,13 @@
     "message": "删除标签页"
   },
   "tabsGroupCountOne": {
-    "message": "1 个标签页"
+    "message": "(1)"
   },
   "tabsGroupCountMany": {
-    "message": "$1 个标签页"
+    "message": "($1)"
+  },
+  "otherGroup": {
+    "message": "Other"
   },
   "restoring": {
     "message": "正在恢复…"

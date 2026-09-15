@@ -13,7 +13,10 @@ test("view modes share one toggle with readable solid-dot SVG icons", () => {
   assert.match(viewButton, /aria-pressed="false"/);
   assert.match(source, /function setViewMode\(nextMode\)/);
   assert.match(source, /setViewMode\(viewMode === "domain" \? "original" : "domain"\)/);
+  assert.match(source, /updateViewButtons\(\);\s+try \{\s+localStorage\.setItem/);
   assert.match(source, /viewToggleButton\.dataset\.viewMode = viewMode/);
+  assert.match(source, /viewIcons\.domain\.style\.display = isDomainView \? "block" : "none"/);
+  assert.match(source, /viewIcons\.original\.style\.display = isDomainView \? "none" : "block"/);
 });
 
 test("restore and clear actions are available from an accessible SVG menu", () => {
@@ -53,5 +56,46 @@ test("search field expands smoothly when focused", () => {
   const css = fs.readFileSync("manager.css", "utf8");
   assert.match(css, /\.search-control input \{[\s\S]*?width: 58px;/);
   assert.match(css, /\.search-control input \{[\s\S]*?transition: width 180ms ease/);
-  assert.match(css, /\.search-control input:focus,[\s\S]*?width: clamp\(150px, 17vw, 230px\)/);
+  assert.match(css, /\.search-control input \{[\s\S]*?text-align: center;/);
+  assert.match(css, /\.search-control input:focus,[\s\S]*?width: clamp\(112px, 12\.75vw, 173px\)/);
+  assert.match(css, /\.header-actions \{[\s\S]*?gap: 11px;/);
+});
+
+test("website groups expose collapsible SVG controls", () => {
+  const source = fs.readFileSync("manager.js", "utf8");
+  const css = fs.readFileSync("manager.css", "utf8");
+  const en = JSON.parse(fs.readFileSync("_locales/en/messages.json", "utf8"));
+  const zh = JSON.parse(fs.readFileSync("_locales/zh_CN/messages.json", "utf8"));
+  assert.equal(en.otherGroup.message, "Other");
+  assert.equal(zh.otherGroup.message, "Other");
+  assert.match(source, /renderDomainGroup\(otherTabs, translate\("otherGroup"\)/);
+  assert.equal(en.tabsGroupCountMany.message, "($1)");
+  assert.equal(zh.tabsGroupCountMany.message, "($1)");
+  assert.match(source, /function setDomainGroupCollapsed\(/);
+  assert.match(source, /className = "group-toggle"/);
+  assert.match(source, /createElementNS\("http:\/\/www\.w3\.org\/2000\/svg", "svg"\)/);
+  assert.match(source, /groupContent\.hidden = collapsed/);
+  assert.match(source, /collapsedDomains\.has\(domain\)/);
+  assert.match(source, /heading\.append\(toggleButton, domainLabel, count\)/);
+  assert.match(css, /\.group-toggle-icon \{/);
+  assert.match(css, /\.group-toggle\.is-collapsed \.group-toggle-icon/);
+  assert.doesNotMatch(css, /\.group-toggle \{[\s\S]*?margin-left: auto;/);
+  assert.match(css, /\.tab-group-content\[hidden\] \{/);
+  assert.match(css, /\.tab-wall \{[\s\S]*?gap: 6px;/);
+  assert.match(css, /\.tab-group-heading \{[\s\S]*?margin: 8px 0 0;/);
+  for (const key of ["collapseGroupAria", "expandGroupAria"]) {
+    assert.ok(en[key]?.message);
+    assert.ok(zh[key]?.message);
+  }
+});
+
+test("tabs-per-row value increments when clicked", () => {
+  const html = fs.readFileSync("manager.html", "utf8");
+  const source = fs.readFileSync("manager.js", "utf8");
+  assert.match(html, /<button id="tabs-per-row-value"[^>]*type="button"/);
+  assert.match(html, /id="tabs-per-row-value"[^>]*data-i18n-title="incrementTabsPerRow"/);
+  assert.match(source, /tabsPerRowValue\.addEventListener\("click", \(\) => \{\s+void incrementTabsPerRow\(\);/);
+  assert.match(source, /async function incrementTabsPerRow\(\)/);
+  assert.match(source, /tabsPerRow \+ 1/);
+  assert.match(source, /tabsPerRow >= MAX_TABS_PER_ROW_SETTING/);
 });

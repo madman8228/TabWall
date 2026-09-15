@@ -18,6 +18,7 @@ const FALLBACK_MESSAGES = {
   clearAll: "Clear all",
   batchActionsAria: "Show restore and clear actions",
   tabsPerRowHint: "Choose how many tabs appear in each row",
+  incrementTabsPerRow: "Increase tabs per row",
   searchTabsLabel: "Search saved tabs",
   searchTabsPlaceholder: "Search tabs",
   searchTabsHint: "Search by title, website, or URL",
@@ -28,6 +29,8 @@ const FALLBACK_MESSAGES = {
   restoreAllAria: "Restore all saved tabs to the browser",
   clearAllTitle: "Clear all saved tabs",
   clearAllAria: "Clear all saved tabs",
+  collapseGroupAria: "Collapse $1 tabs",
+  expandGroupAria: "Expand $1 tabs",
   loading: "Loading…",
   clearAllConfirm: "Clear all saved tabs from TabWall?",
   noSavedTabs: "No saved tabs",
@@ -36,8 +39,9 @@ const FALLBACK_MESSAGES = {
   restoreTabAria: "Restore $1",
   dragHint: "Drag to reorder; drag out to open in a browser tab",
   deleteTab: "Delete tab",
-  tabsGroupCountOne: "1 tab",
-  tabsGroupCountMany: "$1 tabs",
+  tabsGroupCountOne: "(1)",
+  tabsGroupCountMany: "($1)",
+  otherGroup: "Other",
   restoring: "Restoring…",
   restoreSummary: "$1 restored; $2 already open; $3 failed",
   storageError: "TabWall could not load your saved tabs. Try again.",
@@ -69,12 +73,13 @@ const viewIcons = {
 };
 const tabsPerRowInput = document.querySelector("#tabs-per-row");
 const tabsPerRowValue = document.querySelector("#tabs-per-row-value");
-let viewMode = localStorage.getItem(VIEW_MODE_KEY) === "domain" ? "domain" : "original";
+let viewMode = readViewMode();
 let tabsPerRow = DEFAULT_TABS_PER_ROW;
 let resizeTimer;
 let draggedCard = null;
 let ignoreNextCardClick = false;
 let lastRenderedTabs = [];
+const collapsedDomains = new Set();
 
 applyTranslations();
 syncTabsPerRowControl();
@@ -122,12 +127,10 @@ searchInput.addEventListener("input", () => {
   void renderSession();
 });
 tabsPerRowInput.addEventListener("input", async () => {
-  tabsPerRow = clampTabsPerRow(tabsPerRowInput.value);
-  syncTabsPerRowControl();
-  await chrome.storage.local.set({
-    [TABS_PER_ROW_KEY]: tabsPerRow
-  });
-  await renderSession();
+  await setTabsPerRow(tabsPerRowInput.value);
+});
+tabsPerRowValue.addEventListener("click", () => {
+  void incrementTabsPerRow();
 });
 
 async function sendStorageCommand(command, payload = {}) {
@@ -319,28 +322,25 @@ function groupTabsByDomain(tabs) {
 }
 
 function renderDomainView(tabs, sessionSavedAt) {
-  const singleTabGroups = [];
+  const otherTabs = [];
   const multiTabGroups = [];
 
   groupTabsByDomain(tabs).forEach((groupTabs, domain) => {
     if (groupTabs.length === 1) {
-      singleTabGroups.push(groupTabs[0]);
+      otherTabs.push(groupTabs[0]);
       return;
     }
 
     multiTabGroups.push({ groupTabs, domain });
   });
 
-  renderSingleTabGroups(singleTabGroups, sessionSavedAt);
+  if (otherTabs.length > 0) {
+    renderDomainGroup(otherTabs, translate("otherGroup"), sessionSavedAt);
+  }
+
   multiTabGroups.forEach(({ groupTabs, domain }) => {
     renderDomainGroup(groupTabs, domain, sessionSavedAt);
   });
-}
-
-function renderSingleTabGroups(tabs, sessionSavedAt) {
-  if (tabs.length > 0) {
-    renderTabRows(tabs, tabWall, sessionSavedAt, false);
-  }
 }
 
 function renderDomainGroup(groupTabs, domain, sessionSavedAt) {
@@ -349,18 +349,66 @@ function renderDomainGroup(groupTabs, domain, sessionSavedAt) {
 
   const heading = document.createElement("h2");
   heading.className = "tab-group-heading";
-  heading.textContent = domain;
+
+  const domainLabel = document.createElement("span");
+  domainLabel.className = "tab-group-domain";
+  domainLabel.textContent = domain;
 
   const count = document.createElement("span");
   count.className = "tab-group-count";
   count.textContent = groupTabs.length === 1
     ? translate("tabsGroupCountOne")
     : translate("tabsGroupCountMany", [String(groupTabs.length)]);
-  heading.append(count);
+
+  const toggleButton = document.createElement("button");
+  toggleButton.className = "group-toggle";
+  toggleButton.type = "button";
+
+  const toggleIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  toggleIcon.classList.add("group-toggle-icon");
+  toggleIcon.setAttribute("viewBox", "0 0 16 16");
+  toggleIcon.setAttribute("aria-hidden", "true");
+
+  const togglePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  togglePath.setAttribute("d", "m4 6 4 4 4-4");
+  toggleIcon.append(togglePath);
+  toggleButton.append(toggleIcon);
+
+  const groupContent = document.createElement("div");
+  groupContent.className = "tab-group-content";
+
+  const applyCollapsedState = (collapsed) => {
+    setDomainGroupCollapsed(group, groupContent, toggleButton, domain, collapsed);
+  };
+
+  toggleButton.addEventListener("click", () => {
+    applyCollapsedState(!groupContent.hidden);
+  });
+
+  heading.append(toggleButton, domainLabel, count);
 
   group.append(heading);
-  renderTabRows(groupTabs, group, sessionSavedAt, false);
+  renderTabRows(groupTabs, groupContent, sessionSavedAt, false);
+  group.append(groupContent);
+  applyCollapsedState(collapsedDomains.has(domain));
   tabWall.append(group);
+}
+
+function setDomainGroupCollapsed(group, groupContent, toggleButton, domain, collapsed) {
+  group.classList.toggle("is-collapsed", collapsed);
+  groupContent.hidden = collapsed;
+  toggleButton.classList.toggle("is-collapsed", collapsed);
+  toggleButton.setAttribute("aria-expanded", String(!collapsed));
+  const labelKey = collapsed ? "expandGroupAria" : "collapseGroupAria";
+  const label = translate(labelKey, [domain]);
+  toggleButton.title = label;
+  toggleButton.setAttribute("aria-label", label);
+
+  if (collapsed) {
+    collapsedDomains.add(domain);
+  } else {
+    collapsedDomains.delete(domain);
+  }
 }
 
 function getDomain(url) {
@@ -415,12 +463,27 @@ function updateViewButtons() {
   viewToggleButton.dataset.viewMode = viewMode;
   viewIcons.domain.hidden = !isDomainView;
   viewIcons.original.hidden = isDomainView;
+  viewIcons.domain.style.display = isDomainView ? "block" : "none";
+  viewIcons.original.style.display = isDomainView ? "none" : "block";
 }
 
 function setViewMode(nextMode) {
   viewMode = nextMode === "domain" ? "domain" : "original";
-  localStorage.setItem(VIEW_MODE_KEY, viewMode);
   updateViewButtons();
+  try {
+    localStorage.setItem(VIEW_MODE_KEY, viewMode);
+  } catch (error) {
+    console.warn("TabWall could not persist the selected view mode.", error);
+  }
+}
+
+function readViewMode() {
+  try {
+    return localStorage.getItem(VIEW_MODE_KEY) === "domain" ? "domain" : "original";
+  } catch (error) {
+    console.warn("TabWall could not read the selected view mode.", error);
+    return "original";
+  }
 }
 
 function getTabsPerRow() {
@@ -439,6 +502,23 @@ async function readTabsPerRow() {
 function syncTabsPerRowControl() {
   tabsPerRowInput.value = String(tabsPerRow);
   tabsPerRowValue.textContent = String(tabsPerRow);
+}
+
+async function setTabsPerRow(value) {
+  tabsPerRow = clampTabsPerRow(value);
+  syncTabsPerRowControl();
+  await chrome.storage.local.set({
+    [TABS_PER_ROW_KEY]: tabsPerRow
+  });
+  await renderSession();
+}
+
+async function incrementTabsPerRow() {
+  if (tabsPerRow >= MAX_TABS_PER_ROW_SETTING) {
+    return;
+  }
+
+  await setTabsPerRow(tabsPerRow + 1);
 }
 
 function clampTabsPerRow(value) {

@@ -44,6 +44,9 @@
   "tabsPerRowHint": {
     "message": "Choose how many tabs appear in each row"
   },
+  "incrementTabsPerRow": {
+    "message": "Increase tabs per row"
+  },
   "searchTabsLabel": {
     "message": "Search saved tabs"
   },
@@ -74,6 +77,12 @@
   "clearAllAria": {
     "message": "Clear all saved tabs"
   },
+  "collapseGroupAria": {
+    "message": "Collapse $1 tabs"
+  },
+  "expandGroupAria": {
+    "message": "Expand $1 tabs"
+  },
   "clearAllConfirm": {
     "message": "Clear all saved tabs from TabWall?"
   },
@@ -96,10 +105,13 @@
     "message": "Delete tab"
   },
   "tabsGroupCountOne": {
-    "message": "1 tab"
+    "message": "(1)"
   },
   "tabsGroupCountMany": {
-    "message": "$1 tabs"
+    "message": "($1)"
+  },
+  "otherGroup": {
+    "message": "Other"
   },
   "restoring": {
     "message": "Restoring…"
