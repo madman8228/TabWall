@@ -12,7 +12,7 @@ const FALLBACK_MESSAGES = {
   contextMenuSavePage: "Save current page to TabWall",
   originalView: "Original",
   byWebsite: "By website",
-  originalViewHint: "Show tabs in original order",
+  originalViewHint: "Switch to saved order",
   byWebsiteHint: "Group tabs by website",
   restoreAll: "Restore all",
   clearAll: "Clear all",
@@ -63,7 +63,11 @@ const restoreAllButton = document.querySelector("#restore-all");
 const clearSessionButton = document.querySelector("#clear-session");
 const batchActionsButton = document.querySelector("#batch-actions-button");
 const batchActionsMenu = document.querySelector("#batch-actions-menu");
-const viewButtons = document.querySelectorAll("[data-view]");
+const viewToggleButton = document.querySelector("#view-toggle-button");
+const viewIcons = {
+  domain: viewToggleButton.querySelector('[data-view-icon="domain"]'),
+  original: viewToggleButton.querySelector('[data-view-icon="original"]')
+};
 const tabsPerRowInput = document.querySelector("#tabs-per-row");
 const tabsPerRowValue = document.querySelector("#tabs-per-row-value");
 let viewMode = localStorage.getItem(VIEW_MODE_KEY) === "domain" ? "domain" : "original";
@@ -75,6 +79,7 @@ let lastRenderedTabs = [];
 
 applyTranslations();
 syncTabsPerRowControl();
+updateViewButtons();
 
 document.addEventListener("DOMContentLoaded", initializeManager);
 window.addEventListener("resize", () => {
@@ -94,13 +99,11 @@ chrome.runtime.onMessage.addListener((message) => {
     void renderSession();
   }
 });
-viewButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    viewMode = button.dataset.view === "domain" ? "domain" : "original";
-    localStorage.setItem(VIEW_MODE_KEY, viewMode);
-    updateViewButtons();
-    renderSession();
-  });
+viewToggleButton.addEventListener("click", () => {
+  viewMode = viewMode === "domain" ? "original" : "domain";
+  localStorage.setItem(VIEW_MODE_KEY, viewMode);
+  updateViewButtons();
+  void renderSession();
 });
 restoreAllButton.addEventListener("click", restoreAll);
 clearSessionButton.addEventListener("click", clearSession);
@@ -406,9 +409,13 @@ function getRegistrableDomain(hostname) {
 }
 
 function updateViewButtons() {
-  viewButtons.forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.view === viewMode);
-  });
+  const nextViewKey = viewMode === "domain" ? "originalViewHint" : "byWebsiteHint";
+  const nextViewLabel = translate(nextViewKey);
+  viewToggleButton.title = nextViewLabel;
+  viewToggleButton.setAttribute("aria-label", nextViewLabel);
+  viewToggleButton.setAttribute("aria-pressed", String(viewMode === "domain"));
+  viewIcons.domain.hidden = viewMode !== "domain";
+  viewIcons.original.hidden = viewMode === "domain";
 }
 
 function getTabsPerRow() {

@@ -24,7 +24,7 @@
     "message": "By website"
   },
   "originalViewHint": {
-    "message": "Show tabs in original order"
+    "message": "Switch to saved order"
   },
   "byWebsiteHint": {
     "message": "Group tabs by website"
