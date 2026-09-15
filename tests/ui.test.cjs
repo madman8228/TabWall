@@ -48,3 +48,10 @@ test("saved tabs can be searched by title, website, or URL", () => {
   assert.match(source, /function fuzzyMatch\(text, query\)/);
   assert.match(source, /getDomain\(tab\.url\)/);
 });
+
+test("search field expands smoothly when focused", () => {
+  const css = fs.readFileSync("manager.css", "utf8");
+  assert.match(css, /\.search-control input \{[\s\S]*?width: 58px;/);
+  assert.match(css, /\.search-control input \{[\s\S]*?transition: width 180ms ease/);
+  assert.match(css, /\.search-control input:focus,[\s\S]*?width: clamp\(150px, 17vw, 230px\)/);
+});

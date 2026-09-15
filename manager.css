@@ -45,7 +45,7 @@ button {
 }
 
 .search-control input {
-  width: clamp(150px, 17vw, 230px);
+  width: 58px;
   height: 28px;
   padding: 0 10px;
   border: 1px solid #d1d9e8;
@@ -54,15 +54,24 @@ button {
   color: #29375b;
   font-size: 0.78rem;
   outline: none;
+  transition: width 180ms ease, border-color 120ms ease, box-shadow 120ms ease;
 }
 
 .search-control input::placeholder {
   color: #8a95aa;
 }
 
-.search-control input:focus {
+.search-control input:focus,
+.search-control input:focus-visible {
+  width: clamp(150px, 17vw, 230px);
   border-color: #6975db;
   box-shadow: 0 0 0 2px rgba(91, 100, 214, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-control input {
+    transition: none;
+  }
 }
 
 .sr-only {
