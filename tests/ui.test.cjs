@@ -14,6 +14,10 @@ test("view modes share one toggle with readable solid-dot SVG icons", () => {
 
 test("restore and clear actions are available from an accessible SVG menu", () => {
   const html = fs.readFileSync("manager.html", "utf8");
+  const batchButton = html.match(/<button id="batch-actions-button"[^>]*>/)?.[0];
+  assert.ok(batchButton);
+  assert.doesNotMatch(batchButton, /title=/);
+  assert.match(batchButton, /data-i18n-aria-label="batchActionsAria"/);
   assert.match(html, /id="batch-actions-button"[^>]*aria-haspopup="menu"/);
   assert.match(html, /id="batch-actions-menu"[^>]*role="menu"/);
   assert.match(html, /id="restore-all"[^>]*role="menuitem"/);

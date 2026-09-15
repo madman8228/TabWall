@@ -16,7 +16,6 @@ const FALLBACK_MESSAGES = {
   byWebsiteHint: "Group tabs by website",
   restoreAll: "Restore all",
   clearAll: "Clear all",
-  batchActionsTitle: "Show restore and clear actions",
   batchActionsAria: "Show restore and clear actions",
   tabsPerRowHint: "Choose how many tabs appear in each row",
   searchTabsLabel: "Search saved tabs",

@@ -35,9 +35,6 @@
   "clearAll": {
     "message": "全部清除"
   },
-  "batchActionsTitle": {
-    "message": "显示全部恢复和全部清除操作"
-  },
   "batchActionsAria": {
     "message": "显示全部恢复和全部清除操作"
   },
